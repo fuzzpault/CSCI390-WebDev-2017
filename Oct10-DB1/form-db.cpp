@@ -14,6 +14,17 @@
 $nameErr = $emailErr = $genderErr = $websiteErr = "";
 $name = $email = $gender = $comment = $website = "";
 
+$servername = "localhost";
+$username = "root";
+$password = "student";
+$dbname = "cats";
+         // Create connection
+$conn = new mysqli($servername, $username, $password,$dbname);
+// Check connection
+if ($conn->connect_error){
+	die("Connection failed: " . $conn->connect_error);
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	if (empty($_POST["name"])) {
 		$nameErr = "Name is required";
@@ -52,6 +63,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	} else {
 		$gender = test_input($_POST["gender"]);
 	}
+
+	if( $genderErr == '' && $websiteErr == '' && $emailErr == '' && $nameErr == ''){
+		$sql = "INSERT INTO MyGuests (name, message) VALUES ('$name', '$comment')";
+		echo $sql;
+        if ($conn->query($sql) === TRUE) {
+
+            echo "New record created successfully". "<br/>";
+
+        } else {
+
+            echo "Error: " . $sql . "<br>" . $conn->error;
+
+        }   
+    }
+
 }
 
 function test_input($data) {
@@ -115,65 +141,17 @@ Gender:
 	echo "<br>";
 	echo $gender;
 
-	// DB stuff
-	$server = 'localhost';
-	$username= 'student';
-	$pass = 'student';
-	$dbname = 'test';
-
-	// Create connection
-    $conn = new mysqli($servername, $username, $password,$dbname);
-    // Check connection
-    if ($conn->connect_error){
-       die("Connection failed: " . $conn->connect_error);
-    }
-    /* CREATE TABLE MyGuests (
-        id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(30) NOT NULL,
-        comment VARCHAR(250),
-        reg_date TIMESTAMP
-        )
-    */
-
-    // Should we enter into the DB?
-    if($name != '' && $websiteErr == ''){
-    	$sql = "INSERT INTO MyGuests (name, comment)
-
-        VALUES ('$name', '$comment')";
-
-        if ($conn->query($sql) === TRUE) {
-
-            echo "New record created successfully". "<br/>";
-
-        } else {
-
-            echo "Error: " . $sql . "<br>" . $conn->error;
-
+	$sql = "SELECT id, name, message FROM MyGuests";
+	$result = $conn->query($sql);
+	if ($result->num_rows > 0) {
+		echo "<br/>";
+		while($row = $result->fetch_assoc()) {
+			echo "id: " . $row["id"]. " - Name: " . $row["name"]. " " . $row["message"]. "<br>";
         }
+	} else {
+		echo "0 results";  
     }
-
-    // Display all info
-
-    $sql = "SELECT id, name, comment FROM MyGuests";
-
-        $result = $conn->query($sql);
-
-        if ($result->num_rows > 0) {
-
-            echo "<br/>";
-
-
-            while($row = $result->fetch_assoc()) {
-
-
-                echo "id: " . $row["id"]. " - Name: " . $row["name"]. " " . $row["comment"]. "<br>";
-            }
-
-
-        } else {
-
-            echo "0 results";  
-        }
+	
 ?>
 </body>
 </html>
