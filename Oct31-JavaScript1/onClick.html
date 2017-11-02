@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stuff here</title>
+    <script type="text/javascript">
+    var click_times = 0;
+
+    function clickMe(value){
+      click_times++;
+      alert("I was clicked " + ++value + " times.");
+    }
+    </script>
+</head>
+<body>
+    <h1>My amazing website!</h1>
+    <button onclick="clickMe(click_times);">Click me!</button>
+    <button onmouseover="alert('hi');">Or me</button>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stuff here</title>
+    <script type="text/javascript">
+    var click_times = 0;
+
+    function doStuff(){
+      click_times++;
+      var para = document.getElementById("para");
+      para.innerHTML = "Clicked " + click_times;
+      para.style.color = "#00ff00";
+      //alert("I was clicked " + ++value + " times.");
+    }
+    </script>
+</head>
+<body>
+    <h1>My amazing website!</h1>
+    <button onmouseover="doStuff();">Or me</button>
+    <p id="para">This is some text</p>
+</body>
+</html>
