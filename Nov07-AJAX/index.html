@@ -9,8 +9,8 @@
     if( a % 1 === 0 && b % 1 === 0){
       logbase2 = new XMLHttpRequest();
       logbase2.onreadystatechange = getResponse;
-      //logbase2.open('GET','multiply.php?a=' + a + '&b=' + b, true);
-      logbase2.open('GET','http://cnn.com', true);
+      logbase2.open('GET','multiply.php?a=' + a + '&b=' + b, true);
+      //logbase2.open('GET','http://cnn.com', true);
       logbase2.send(null);
     }
   }
