@@ -19,6 +19,7 @@ var numGuesses;
 function resetGame(){
 	secretNumber = Math.floor(Math.random() * 100);
 	numGuesses = 0;
+	document.getElementById('guess').value = "";
 }
 resetGame();
 
@@ -27,6 +28,7 @@ function makeGuess(){
 	if(guess % 1 !== 0){
 		alert("Enter a number, you sneaky student!");
 		numGuesses+=5;
+		document.getElementById('tries').innerHTML = numGuesses;
 		return;
 	}
 	if(guess < secretNumber){

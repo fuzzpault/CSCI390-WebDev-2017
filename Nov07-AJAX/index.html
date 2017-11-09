@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <script type="text/javascript">
+  var logbase2;
+  function multiply(){
+    var a = document.getElementById('a').value;
+    var b = document.getElementById('b').value;
+    if( a % 1 === 0 && b % 1 === 0){
+      logbase2 = new XMLHttpRequest();
+      logbase2.onreadystatechange = getResponse;
+      //logbase2.open('GET','multiply.php?a=' + a + '&b=' + b, true);
+      logbase2.open('GET','http://cnn.com', true);
+      logbase2.send(null);
+    }
+  }
+
+  function getResponse(){
+    if(logbase2.readyState == 4 && // done
+      logbase2.status == 200 && // Sucessfull response
+      logbase2.responseText){
+      document.getElementById('result').innerHTML = logbase2.responseText;
+    }
+  }
+  </script>
+</head>
+<body>
+<h1>Number multiplier!</h1>
+
+<label>A:</label><input type="text" id="a" onkeyup="multiply();"></input>
+<label>B:</label><input type="text" id="b" onkeyup="multiply();"></input>
+<div id="result"></div>
+</body>
+</html>
