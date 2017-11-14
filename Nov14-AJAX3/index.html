@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <script type="text/javascript">
+  var ajaxHandle;
+  var ajaxHandle2;
+  var requestcount = 0;
+
+  function getNewMults(){
+      ajaxHandle2 = new XMLHttpRequest();
+      ajaxHandle2.onreadystatechange = updatePage;
+      ajaxHandle2.open('GET','multCount.php', true);
+      //logbase2.open('GET','http://cnn.com', true); // Will not work due to same origin policy in browser.
+      ajaxHandle2.send(null);
+      requestcount++;
+  }
+  // Call getNewMults every 500 ms
+  window.setInterval(getNewMults, 500);
+
+  function updatePage(){
+    if(ajaxHandle2.readyState == 4 && // done
+      ajaxHandle2.status == 200 && // Sucessfull response
+      ajaxHandle2.responseText){
+      document.getElementById('multcount').innerHTML = ajaxHandle2.responseText + " requests " + requestcount;
+    }
+  }
+
+  function doStuff( action, dest){
+    var a = document.getElementById(action + '_a').value;
+    var b = document.getElementById(action + '_b').value;
+
+    if( a % 1 === 0 && b % 1 === 0){
+      ajaxHandle = new XMLHttpRequest();
+      ajaxHandle.onreadystatechange = getResponse;
+      ajaxHandle.open('GET','action.php?a=' + a + '&b=' + b +'&action=' + action + '&dest=' + dest, true);
+      ajaxHandle.send(null);
+    }
+  }
+
+  function getResponse(){
+    if(ajaxHandle.readyState == 4 && // done
+      ajaxHandle.status == 200 && // Sucessfull response
+      ajaxHandle.responseText){
+        var response = JSON.parse(ajaxHandle.responseText);
+      document.getElementById(response.destination).innerHTML = response.result;
+    }
+  }
+  
+  function resetButton(){
+    ajaxHandle = new XMLHttpRequest();
+    ajaxHandle.onreadystatechange = getResponse;
+    ajaxHandle.open('GET','action.php?action=flush', true);
+    ajaxHandle.send(null);
+  }
+  
+  </script>
+</head>
+<body>
+<h1>Multiplying & Adding Numbers Using Memcache</h1>
+
+<input type="text" id="mult_a" onkeyup="doStuff('mult','mulresult');"></input> *
+<input type="text" id="mult_b" onkeyup="doStuff('mult','mulresult');"></input> =
+<span id="mulresult"></span>
+</br><br>
+<input type="text" id="add_a" onkeyup="doStuff('add','addresult');"></input> +
+<input type="text" id="add_b" onkeyup="doStuff('add','addresult');"></input> =
+<span id="addresult"></span>
+<div id="multcount"></div>
+
+<input type="button" onclick="resetButton();" value="Reset Count"/>
+
+</body>
+</html>
