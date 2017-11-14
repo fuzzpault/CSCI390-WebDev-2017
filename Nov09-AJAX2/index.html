@@ -10,7 +10,7 @@
       notWorking = new XMLHttpRequest();
       notWorking.onreadystatechange = updatePage;
       notWorking.open('GET','multCount.php', true);
-      //logbase2.open('GET','http://cnn.com', true);
+      //logbase2.open('GET','http://cnn.com', true); // Will not work due to same origin policy in browser.
       notWorking.send(null);
       requestcount++;
   }
@@ -31,7 +31,6 @@
       logbase2 = new XMLHttpRequest();
       logbase2.onreadystatechange = getResponse;
       logbase2.open('GET','multiply.php?a=' + a + '&b=' + b, true);
-      //logbase2.open('GET','http://cnn.com', true);
       logbase2.send(null);
     }
   }

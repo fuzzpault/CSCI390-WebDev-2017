@@ -1,7 +1,7 @@
 <?php
+	// Returns the number of times a multiply was done, stored in memcache.
 
-//session_start();
-$m = new Memcached;
+$m = new Memcache;  // Change to Memcached if on our VM.
 $m->addServer('localhost', 11211);
 
 $count = $m->get('mult-count');

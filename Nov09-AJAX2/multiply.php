@@ -1,8 +1,9 @@
 <?php
 
-//session_start();
+// Does a multiply with the a and b get values, and updates memcache's
+// mult-count variable.
 
-$m = new Memcached;
+$m = new Memcache;  // Change to Memcached if on our VM.
 $m->addServer('localhost', 11211);
 
 if(isset($_GET['a']) && isset($_GET['b'])){
